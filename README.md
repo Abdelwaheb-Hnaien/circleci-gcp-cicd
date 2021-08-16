@@ -1,5 +1,7 @@
 # Continious deployment to Google Compute Instance with CircleCi
 
+--> https://medium.com/@abdelwaheb.hnaien/ci-cd-with-circleci-and-google-cloud-platform-fb1f2206daa4
+
 In this tutorial we demonstrate how to continiously deploy a simple website developed with python flask to a Google Compute Instance.
 
 Notice, this work doesn’t address DevOps/GitOps best practices, it only shows how to deploy an app through a very basic pipeline using CircleCi.
