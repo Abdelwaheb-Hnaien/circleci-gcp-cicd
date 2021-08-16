@@ -1,0 +1,61 @@
+version: 2.1
+
+orbs:
+  gcp-cli: circleci/gcp-cli@2.2.0
+
+executors:
+  docker-publisher:
+    docker:
+      - image: circleci/golang:latest
+        auth:
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
+
+  python-linter:
+    docker:
+      - image: circleci/python:latest
+
+jobs:
+    test:
+      executor: python-linter
+      steps:
+      - checkout
+      - run:
+          name: check code
+          command: |
+            python -m pip install pylint && pylint app.py --disable=import-error
+
+    build_and_publish:
+      executor: docker-publisher
+      steps:
+        - checkout
+        - setup_remote_docker
+        - run:
+            name: Publish Docker Image to Docker Hub
+            command: |
+              echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+              docker build -t "$IMAGE_NAME" .
+              docker push "$IMAGE_NAME":latest
+
+    deploy:
+      executor: gcp-cli/default
+      steps:
+      - gcp-cli/install
+      - gcp-cli/initialize
+      - run:
+          name: deploy service
+          command: |
+            export cmd='sudo docker stop $(docker ps -a -q) && sudo docker rm $(docker ps -a -q) && docker image prune -a -f && docker run -d -p 80:5000'
+            gcloud --quiet compute ssh  "$GCE_INSTANCE_NAME" --tunnel-through-iap --command="$cmd $IMAGE_NAME"
+
+workflows:
+  version: 2
+  test-build-deploy:
+    jobs:
+       - test
+       - build_and_publish:
+          requires:
+            - test
+       - deploy:
+          requires:
+            - build_and_publish

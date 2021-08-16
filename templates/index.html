@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Simple website</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}"></link>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="{{url_for('static', filename='script.js')}}"></script>
+  </head>
+
+  <body class="bodyclass">
+
+    <h1 class="cct">Hello !</h1>
+    <h2>Welcome to my website</h2>
+    <p>
+      <a href="/go_home">click here</a> to go to home page <br>
+      Next picture is a rabbit,  if you want to know <br>
+      more about <u>rabbit</u> please visit <a href="/rabbit">this link</a> <br>
+      If you want to say something about rabbit feel free to write it below.<br>
+    </p>
+    <textarea class="form-control" rows="5"></textarea>
+    <br>
+    <img class="myimageclass" src= "{{url_for('static', filename='rabbit.jpg')}}" alt="no image found"></img>
+    <br>
+    <div style="text-align: center;">
+      <button type="button" onclick="myfunction()" class="btn btn-danger">Like</button>
+    <br>
+    <br>
+    <select style="width:40%" class="browser-default custom-select custom-select-lg mb-3">
+      <option selected>Do you like rabbits?</option>
+      <option value="yes">Yes</option>
+      <option value="no">no</option>
+    </select>
+      <!-- Radio button-->
+    <p>Are you happy with this website ?</p>
+    <input type="radio" id="yes" name="yes" value="yes">
+    <label for="yes">yes</label><br>
+    <input type="radio" id="no" name="no" value="no">
+    <label for="yes">no</label><br>
+    </div>
+  </body>
+
+</html>

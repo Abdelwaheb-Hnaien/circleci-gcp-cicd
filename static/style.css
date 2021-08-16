@@ -1,0 +1,25 @@
+h2 {
+  color: red;
+  text-align: center;
+}
+
+p {
+  text-align: center;
+}
+
+.cct {
+  color: blue;
+  text-align: center;
+}
+
+.myimageclass {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+}
+
+.bodyclass {
+  width: 40%;
+  margin: 0 auto;
+}
